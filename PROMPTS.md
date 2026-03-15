@@ -88,3 +88,20 @@
 **Adaptations:** Added `observed=True` to the `pd.cut` + groupby calls and `include_groups=False` to the relevant `.apply()` calls. Also added `warnings.filterwarnings('ignore', category=FutureWarning)` in the setup cell for warnings coming from seaborn internals we couldn't control.
 
 **Final Decision:** Used. The fix worked as described. We now understand that `observed` and `include_groups` are about pandas defaults changing, not bugs in our analysis.
+
+---
+
+## Entry 5 — March 15, 2026 — Final mistake check before submission
+
+**Context:** Before doing any submission we did a final check for common mistakes provided by the instructor. That's aside from prior check we personally did for typos, logic errors, and formatting issues.
+
+**Prompt(s):**
+- "These are the common mistakes to check for before submitting: [list of mistakes]. Can you help me check if any of these apply to my notebook?"
+
+**Output:** The AI went through the checklist and we confirmed none of them was present in our notebooks.
+
+**Validation:** Did a final read-through ourselves to confirm the AI's assessment.
+
+**Adaptations:** None taken from the AI here since it was just a checklist review.
+
+**Final Decision:** Helped with confidence on the final review, but we still can't just trust it 100% and ended up doingo ur our own manual check as well.
