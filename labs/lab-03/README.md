@@ -8,7 +8,7 @@
 
 ## What This Lab Does
 
-Compares 5 models (2 statistical baselines + 1 domain heuristic + Ridge + Random Forest + Gradient Boosting) for predicting F1 driver points per race using regression (MAE). Framing changed from Labs 1–2 (binary classification) to regression — see `framing_decision.md` for full justification.
+Compares 6 models (2 statistical baselines + 1 domain heuristic + Ridge + Random Forest + Gradient Boosting) for predicting F1 driver points per race using regression (MAE). Framing changed from Labs 1–2 (binary classification) to regression — see `framing_decision.md` for full justification.
 
 ---
 
@@ -82,6 +82,6 @@ labs/lab3/
 | Grid heuristic (domain) | ~3.2 |
 | Ridge (alpha=1.0) | ~3.3 |
 | Random Forest | ~2.8 |
-| Gradient Boosting | TBD after run |
+| Gradient Boosting | ~2.9 |
 
-Random Forest and/or Gradient Boosting beat the domain heuristic. See `comparison_table.md` for exact values with the WHY column.
+Random Forest is the best model (test MAE = 2.838), outperforming Gradient Boosting (2.915) and the grid heuristic (3.246). See `comparison_table.md` for exact values with the WHY column.
