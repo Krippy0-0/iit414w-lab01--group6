@@ -57,3 +57,17 @@ Team: Carlos Orellana and Mattias Morales, Group 6
 **Adaptations:** We explicitly included the phrase that this is promising but not deployment-ready, and tied the next step to calibration and scenario robustness experiments in Hito 2.
 
 **Final Decision:** Use honest wording in `framing.md` and avoid claiming that the advisor is ready for live strategy calls.
+
+## Interaction 5 - Final Hito 1 Rubric Review
+
+**Context:** Before submission, we reviewed the complete Hito 1 package against the assignment statement: required files, locked temporal split, leakage audit, baseline metrics, what-if plan, limitations, README, and prompt log.
+
+**Prompts:** "Revisa todo el hito 1, aqui esta mi enunciado:" followed by the full Hito 1 assignment text.
+
+**Output:** The AI confirmed the required Hito 1 files were present under `hito1/`, executed the notebook with `python -m nbconvert`, and identified one rubric risk: `qualifying_position` was included as a model feature even though the assignment says it is a stand-in for `grid_position`.
+
+**Validation:** The notebook was re-run after removing `qualifying_position` from the feature list. It still passed end-to-end and reported Brier 0.125, log loss 0.426, and ROC-AUC 0.902 on the locked 2023-2024 test set.
+
+**Adaptations:** We kept `grid_position` as the position signal, moved `qualifying_position` into the audit/not-used group, updated `framing.md` to state that qualifying fields are not treated as separate predictive signals, and made the notebook data path work from either the repo root or `hito1/`.
+
+**Final Decision:** Submit the package with the safer leakage audit and qualifying-field language, while keeping the same calibrated baseline result.

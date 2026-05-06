@@ -24,7 +24,7 @@ We implement two Hito 1 baselines using the locked temporal split: train 2019-20
 
 The first baseline is a grid-rule heuristic: high probability for starts P1-P5, medium-high for P6-P10, lower for P11-P15, and very low for P16+. This is defendable from F1 logic alone because track position, clean air, and car pace revealed by qualifying are the strongest simple signals for finishing in the points. It does not use post-race strategy information.
 
-The second baseline is a simple calibrated gradient boosting model. It uses pre-race features plus strategy fields as scenario inputs: `n_stops`, `strategy_type`, `compound_sequence`, stint lengths, pit-lap fields, and pit-time summaries. This distinction is essential. In the raw historical data those strategy fields are observed after the race, so they would be leakage in a normal pre-race prediction model. In this capstone they are allowed only because the product is a scenario comparison tool: the user intentionally sets those values to ask what would happen under a one-stop or two-stop plan.
+The second baseline is a simple calibrated gradient boosting model. It uses available pre-race context, with `grid_position` as the position signal, plus strategy fields as scenario inputs: `n_stops`, `strategy_type`, `compound_sequence`, stint lengths, pit-lap fields, and pit-time summaries. This distinction is essential. In the raw historical data those strategy fields are observed after the race, so they would be leakage in a normal pre-race prediction model. In this capstone they are allowed only because the product is a scenario comparison tool: the user intentionally sets those values to ask what would happen under a one-stop or two-stop plan.
 
 The notebook result on the untouched 2023-2024 test block is:
 
@@ -51,7 +51,7 @@ For each pair, the recommendation should be reported as a probability delta, not
 
 The recovered dataset starts in 2019, not earlier. This means the model cannot learn older regulation-era behavior and has limited exposure to rare race patterns. Any recommendation should be understood as modern-era only.
 
-`qualifying_position` is a stand-in for `grid_position`, and `qualifying_time_s` is intentionally empty in the race-level build. We use position-like qualifying/grid fields carefully, but we do not tell a story around qualifying time because the assignment explicitly warns that this would be a graded error.
+`qualifying_position` is a stand-in for `grid_position`, and `qualifying_time_s` is intentionally empty in the race-level build. To avoid double-counting or treating qualifying as a separate real signal, the notebook uses `grid_position` and keeps `qualifying_position` and `qualifying_time_s` out of the model features.
 
 `safety_car_periods` is a binary driver-race indicator in this build, not a complete race-control interval count. We keep it as an audit/stress-test column and do not use it as a normal predictor.
 
