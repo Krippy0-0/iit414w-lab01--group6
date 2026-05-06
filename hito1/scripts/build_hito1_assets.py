@@ -7,7 +7,7 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKSPACE = ROOT.parents[1]
+WORKSPACE = ROOT.parents[2]
 SOURCE_DIR = WORKSPACE / "excel_capstone"
 DATA_DIR = ROOT / "data"
 
