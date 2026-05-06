@@ -7,8 +7,9 @@ Group 6 repository for Module 5, Unit IV Capstone Hito 1: Problem Framing + Base
 - `framing.md`: decision framing, metric rationale, limitations, what-if plan, Hito 2 experiments, and workflow.
 - `hito1_baseline.ipynb`: executable notebook for the locked split and baseline evaluation.
 - `PROMPTS.md`: documented AI interactions using the required 6-field standard.
-- `data/f1_strategy_race_level.csv`: recovered race-level dataset used by the notebook.
-- `scripts/build_hito1_assets.py`: reproducible script that rebuilds the CSV and notebook from local course artifacts.
+- `data/f1_strategy_race_level.csv`: official race-level capstone dataset used by the notebook.
+- `data/f1_strategy_lap_level.csv`: optional lap-level capstone dataset included for Hito 2 extension.
+- `scripts/build_hito1_assets.py`: helper script that copies the official capstone CSVs from `excel_capstone/` and regenerates the notebook.
 
 ## Install
 
@@ -47,10 +48,10 @@ That environment variable is only a local execution workaround; it is not requir
 
 ## Data Provenance
 
-The required `f1_strategy_race_level.csv` was not present in the workspace, so this package includes a recovered build from:
+The package uses the official capstone files provided in `excel_capstone/`:
 
-- `certamen2_orellana/f1_prerace_features_2019_2024.csv`
-- `miniChallenge/md1_pitstops_2019_2024.csv`
+- `f1_strategy_race_level.csv`
+- `f1_strategy_lap_level.csv` as optional supporting data
 
 The notebook treats strategy fields such as `n_stops`, `compound_sequence`, and stint-life summaries as scenario inputs for what-if comparison. They are not presented as pre-race signals.
 
@@ -67,7 +68,7 @@ Executed test-set metrics:
 
 | Model | Brier | Log loss | ROC-AUC |
 |---|---:|---:|---:|
-| Grid-rule heuristic | 0.161 | 0.498 | 0.834 |
-| Calibrated GB baseline | 0.134 | 0.440 | 0.887 |
+| Grid-rule heuristic | 0.160 | 0.495 | 0.839 |
+| Calibrated GB strategy baseline | 0.125 | 0.426 | 0.902 |
 
-The calibrated model beats the grid-rule floor but does not quite beat the docent reference model of Brier 0.132 and ROC-AUC 0.892.
+The calibrated model beats both the grid-rule floor and the docent reference model of Brier 0.132 and ROC-AUC 0.892.

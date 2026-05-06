@@ -1,6 +1,6 @@
 {
-  "rows": 2559,
-  "columns": 66,
+  "rows": 2447,
+  "columns": 47,
   "seasons": [
     2019,
     2020,
@@ -9,5 +9,7 @@
     2023,
     2024
   ],
-  "target_rate": 0.5001953888237592
+  "target_rate": 0.5161422149570903,
+  "source": "excel_capstone/f1_strategy_race_level.csv",
+  "lap_level_included": true
 }

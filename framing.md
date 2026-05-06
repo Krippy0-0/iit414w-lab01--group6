@@ -10,7 +10,7 @@ The product we are framing is a race-weekend strategy advisor for a Formula 1 pi
 
 The direct user is the race strategy group: strategy engineer, performance engineer, and sporting director. The decision window is after qualifying and before the race start, when grid position, team/driver history, circuit type, and practice/qualifying summaries are available. The unit of prediction is one driver in one Grand Prix.
 
-This is not a deployment-ready optimizer in Hito 1. It is a disciplined baseline package for deciding whether the recovered dataset has enough signal to support scenario comparison in Hito 2. The professional recommendation at this stage is: do not deploy this tool for real strategy calls unless Hito 2 confirms better calibration under scenario stress tests and explicitly handles confounding between strategy, car pace, incidents, and weather.
+This is not a deployment-ready optimizer in Hito 1. It is a disciplined baseline package for deciding whether the official capstone race-level dataset has enough signal to support scenario comparison in Hito 2. The professional recommendation at this stage is: do not deploy this tool for real strategy calls unless Hito 2 confirms calibration under scenario stress tests and explicitly handles confounding between strategy, car pace, incidents, and weather.
 
 ## 2. Target and Primary Metric
 
@@ -24,26 +24,26 @@ We implement two Hito 1 baselines using the locked temporal split: train 2019-20
 
 The first baseline is a grid-rule heuristic: high probability for starts P1-P5, medium-high for P6-P10, lower for P11-P15, and very low for P16+. This is defendable from F1 logic alone because track position, clean air, and car pace revealed by qualifying are the strongest simple signals for finishing in the points. It does not use post-race strategy information.
 
-The second baseline is a simple calibrated gradient boosting model. It uses pre-race features plus strategy fields as scenario inputs: `n_stops`, `compound_sequence`, stint-life summaries, and pit-loss summaries. This distinction is essential. In the raw historical data those strategy fields are observed after the race, so they would be leakage in a normal pre-race prediction model. In this capstone they are allowed only because the product is a scenario comparison tool: the user intentionally sets those values to ask what would happen under a one-stop or two-stop plan.
+The second baseline is a simple calibrated gradient boosting model. It uses pre-race features plus strategy fields as scenario inputs: `n_stops`, `strategy_type`, `compound_sequence`, stint lengths, pit-lap fields, and pit-time summaries. This distinction is essential. In the raw historical data those strategy fields are observed after the race, so they would be leakage in a normal pre-race prediction model. In this capstone they are allowed only because the product is a scenario comparison tool: the user intentionally sets those values to ask what would happen under a one-stop or two-stop plan.
 
 The notebook result on the untouched 2023-2024 test block is:
 
 | Model | Brier | Log loss | ROC-AUC | Reflection |
 |---|---:|---:|---:|---|
-| Grid-rule heuristic | 0.161 | 0.498 | 0.834 | Beats the course grid-rule floor of 0.208 but is too coarse for strategy comparison. |
-| Calibrated GB baseline | 0.134 | 0.440 | 0.887 | Very close to the docent model, but does not beat Brier 0.132 or ROC-AUC 0.892. |
+| Grid-rule heuristic | 0.160 | 0.495 | 0.839 | Beats the course grid-rule floor of 0.208 but is too coarse for strategy comparison. |
+| Calibrated GB strategy baseline | 0.125 | 0.426 | 0.902 | Beats the docent reference of Brier 0.132 and ROC-AUC 0.892 on the locked test block. |
 
-This is a strong Hito 1 baseline because it beats the grid-rule floor and nearly matches the docent baseline without changing the locked split. We should describe it as promising, not proven.
+This is a strong Hito 1 baseline because it beats the grid-rule floor and the docent calibrated reference without changing the locked split. We should still describe it as promising, not proven, because Hito 1 has only one target and limited scenario robustness analysis.
 
 ## 4. What-If Comparison Plan
 
 The model will support paired comparisons where all pre-race context is held fixed and only strategy scenario inputs change. Hito 1 includes a concrete example cell in the notebook; Hito 2 should formalize this as an interface or reusable function.
 
-Scenario 1: Charles Leclerc, Monaco Grand Prix 2024. Compare `n_stops=1`, `compound_sequence=MEDIUM-HARD`, `avg_stint_tyre_life=34`, `max_stint_tyre_life=44`, `pit_loss_total=22.5` against `n_stops=2`, `compound_sequence=MEDIUM-MEDIUM-HARD`, `avg_stint_tyre_life=23`, `max_stint_tyre_life=30`, `pit_loss_total=45.0`.
+Scenario 1: Charles Leclerc, Monaco Grand Prix 2024. Compare `n_stops=1`, `strategy_type=one_stop`, `compound_sequence=M-H`, `stint1_length=34`, `stint2_length=44`, `avg_pit_stop_duration_s=22.5`, `total_pit_time_s=22.5`, `first_pit_lap=34`, `last_pit_lap=34` against `n_stops=2`, `strategy_type=two_stop`, `compound_sequence=M-M-H`, `stint1_length=22`, `stint2_length=21`, `stint3_length=35`, `avg_pit_stop_duration_s=22.5`, `total_pit_time_s=45.0`, `first_pit_lap=22`, `last_pit_lap=43`.
 
-Scenario 2: Sergio Perez, British Grand Prix 2024. Compare an aggressive two-stop plan with `n_stops=2`, `compound_sequence=SOFT-MEDIUM-HARD`, `avg_stint_tyre_life=18`, `max_stint_tyre_life=26`, `pit_loss_total=44.0` against a conservative one-stop plan with `n_stops=1`, `compound_sequence=MEDIUM-HARD`, `avg_stint_tyre_life=31`, `max_stint_tyre_life=40`, `pit_loss_total=22.0`.
+Scenario 2: Sergio Perez, British Grand Prix 2024. Compare an aggressive two-stop plan with `n_stops=2`, `strategy_type=two_stop`, `compound_sequence=S-M-H`, `stint1_length=18`, `stint2_length=26`, `stint3_length=28`, `total_pit_time_s=44.0`, `first_pit_lap=18`, `last_pit_lap=44` against a conservative one-stop plan with `n_stops=1`, `strategy_type=one_stop`, `compound_sequence=M-H`, `stint1_length=31`, `stint2_length=40`, `total_pit_time_s=22.0`, `first_pit_lap=31`, `last_pit_lap=31`.
 
-Scenario 3: Lando Norris, Hungarian Grand Prix 2024. Compare `n_stops=1`, `compound_sequence=MEDIUM-HARD`, `avg_stint_tyre_life=33`, `max_stint_tyre_life=41`, `pit_loss_total=21.5` against `n_stops=2`, `compound_sequence=MEDIUM-HARD-MEDIUM`, `avg_stint_tyre_life=22`, `max_stint_tyre_life=30`, `pit_loss_total=43.0`.
+Scenario 3: Lando Norris, Hungarian Grand Prix 2024. Compare `n_stops=1`, `strategy_type=one_stop`, `compound_sequence=M-H`, `stint1_length=33`, `stint2_length=41`, `total_pit_time_s=21.5`, `first_pit_lap=33`, `last_pit_lap=33` against `n_stops=2`, `strategy_type=two_stop`, `compound_sequence=M-H-M`, `stint1_length=22`, `stint2_length=30`, `stint3_length=28`, `total_pit_time_s=43.0`, `first_pit_lap=22`, `last_pit_lap=52`.
 
 For each pair, the recommendation should be reported as a probability delta, not as a guaranteed outcome.
 
