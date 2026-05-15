@@ -5,7 +5,7 @@
 **Course:** IIT414W — Artificial Intelligence Workshop · 2026-1T
 **Date:** May 17, 2026
 **Repo:** https://github.com/Krippy0-0/iit414w-lab01--group6
-**Commit:** final-v1
+**Commit:** f6adaaf
 
 ---
 
