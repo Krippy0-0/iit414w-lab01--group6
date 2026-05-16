@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(pip show *)",
+      "Bash(pip install *)",
+      "Bash(python build_pptx.py)",
+      "Bash(python -c \"import os; f='c:/Users/matti/OneDrive - udd.cl/Documents/udd/2026/iaw/iit414w-lab01--group6/demo_day/F1_Strategy_Advisor_DemoDay_Group6.pptx'; print\\(f'Exists: {os.path.exists\\(f\\)}'\\); print\\(f'Size: {os.path.getsize\\(f\\)//1024} KB'\\)\")"
     ]
   }
 }
