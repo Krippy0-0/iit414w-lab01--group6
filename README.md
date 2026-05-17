@@ -2,6 +2,61 @@
 
 This repository contains Group 6 coursework and capstone artifacts.
 
+## Final Report / Capstone
+
+Final report source and writing-phase AI log:
+
+- `final_report/IIT414W_FinalReport_Group6.md`
+- `final_report/PROMPTS.md`
+
+Demo Day assets:
+
+- `demo_day/F1_Strategy_Advisor_DemoDay_Group6.pptx`
+- `demo_day/build_pptx.py`
+- `demo_day/cal_top10.png`
+- `demo_day/cal_top5.png`
+
+The submitted repository URL should point to:
+
+```text
+https://github.com/Krippy0-0/iit414w-lab01--group6
+```
+
+The submitted PDF title page should list the short hash of the `final-v1` tag:
+
+```bash
+git rev-parse --short final-v1
+```
+
+## Reproducibility Runbook
+
+The full capstone artifacts can be regenerated from a fresh clone in a standard Python 3.11 environment. From the repository root:
+
+```bash
+conda env create -f environment.yml
+conda activate iit414w-group6
+python hito2/scripts/build_hito2_assets.py
+python -m nbconvert --to notebook --execute hito2/hito2_modeling.ipynb --output hito2_modeling.executed.ipynb
+python demo_day/build_pptx.py
+```
+
+If you are using the course-provided environment instead of the local `environment.yml`, install the small package set from `hito1/requirements.txt` and add `python-pptx` before running the same commands.
+
+On Windows classroom machines that block Jupyter connection-file permissions, run this before the `nbconvert` command:
+
+```powershell
+$env:JUPYTER_ALLOW_INSECURE_WRITES='1'
+```
+
+Expected outputs:
+
+- Hito 2 markdown artifacts in `hito2/`
+- Executed notebook at `hito2/hito2_modeling.executed.ipynb`
+- Calibration figures at `demo_day/cal_top10.png` and `demo_day/cal_top5.png`
+- Demo deck at `demo_day/F1_Strategy_Advisor_DemoDay_Group6.pptx`
+
+The scripts use repository-relative paths only. `RANDOM_SEED = 414` is set in every stochastic model component.
+
 ## Hito 1
 
 The complete Hito 1 submission package is in [`hito1/`](hito1/):

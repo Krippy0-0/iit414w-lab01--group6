@@ -1,0 +1,15 @@
+name: iit414w-group6
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - jupyter
+  - nbformat
+  - nbconvert
+  - pip:
+      - python-pptx

@@ -43,3 +43,17 @@ Team: Carlos Orellana and Mattias Morales, Group 6
 **Adaptations:** The AI's initial framing of hypothesis 3 attributed the overestimation to "model overfitting." We replaced this with the domain-specific explanation: in close championship battles, front-running constructors sometimes sacrifice top-5 finishing position for strategic reasons, and the model does not capture race-objective context. The domain explanation is more actionable for a strategy engineer.
 
 **Final Decision:** Use the domain-specific explanations for all three failure modes. ML-internal explanations (overfitting, variance) are less useful for a strategy audience than operational F1 explanations.
+
+## Interaction 3 — Final Reproducibility Audit
+
+**Context:** Before submission, the repository was pulled from GitHub and checked against the Final Report rubric, with attention to the tagged commit, README runbook, report figures, and AI-use documentation.
+
+**Prompts:** Asked AI to update the local repository from GitHub, review the `labs` repository against the Final Report requirements, and identify remaining risks before final submission.
+
+**Output:** AI confirmed the repository was clean before pulling, updated `main` from GitHub, found the `final-v1` tag, and flagged three submission risks: the root README lacked a full third-party runbook, the report discussed calibration plots without embedding the available calibration images, and the current branch head was newer than the existing `final-v1` tag.
+
+**Validation:** The audit used `git status`, `git rev-parse --short HEAD`, `git rev-parse --short final-v1`, recursive artifact listing, and direct inspection of `README.md`, `final_report/IIT414W_FinalReport_Group6.md`, and `final_report/PROMPTS.md`.
+
+**Adaptations:** The root README was expanded with a fresh-clone runbook, `environment.yml` was added for Python 3.11 reproducibility, and the final report now embeds both calibration plots from `demo_day/`.
+
+**Final Decision:** Keep the current report content but make reproducibility explicit. Before final Canvas submission, ensure the submitted PDF title-page hash matches the `final-v1` tag that is pushed to GitHub.
