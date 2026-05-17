@@ -5,7 +5,9 @@
 **Course:** IIT414W — Artificial Intelligence Workshop · 2026-1T
 **Date:** May 17, 2026
 **Repo:** https://github.com/Krippy0-0/iit414w-lab01--group6
-**Commit:** f6adaaf
+**Commit:** 000077a
+
+<div style="page-break-after: always;"></div>
 
 ---
 
@@ -97,7 +99,7 @@ The locked temporal split follows the course specification:
 | Calibration | 2022 | ~440 | Isotonic regression calibration |
 | Test | 2023–2024 | ~857 | Held-out evaluation (untouched) |
 
-The test block is fully held out. No hyperparameter tuning, feature selection, or threshold adjustment was made after inspecting test-set results. The split is enforced programmatically in the notebook by filtering on the `year` column before any model fitting step.
+The test block is fully held out. No hyperparameter tuning, feature selection, or threshold adjustment was made after inspecting test-set results. The split is enforced programmatically in the notebook by filtering on the `season` column before any model fitting step.
 
 ### Leakage Audit Summary
 
@@ -157,7 +159,7 @@ Features excluded with explicit justification: `qualifying_position` (collinear 
 
 ### Hyperparameter Rationale
 
-The gradient boosting model uses scikit-learn defaults with `random_state=414`. No grid search was performed on the test set. The calibration step (isotonic regression on the 2022 block) is the primary mechanism for probability adjustment. This conservative approach was chosen deliberately: the dataset has approximately 1,150 training rows, which is insufficient for aggressive hyperparameter tuning without risk of overfitting. The default learning rate and tree depth were validated by inspection of calibration curves on the 2022 block, not on the test set.
+The gradient boosting model uses a conservative configuration fixed before test evaluation: `learning_rate=0.04`, `n_estimators=140`, `max_depth=2`, `min_samples_leaf=20`, and `random_state=414`. No grid search was performed on the test set. The calibration step (isotonic regression on the 2022 block) is the primary mechanism for probability adjustment. This conservative approach was chosen deliberately: the dataset has approximately 1,150 training rows, which is insufficient for aggressive hyperparameter tuning without risk of overfitting. The shallow trees and minimum-leaf constraint were validated by inspection of calibration behavior on the 2022 block, not on the test set.
 
 ### Second Target: `is_top5`
 
