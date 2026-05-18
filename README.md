@@ -7,14 +7,10 @@ This repository contains Group 6 coursework and capstone artifacts.
 Final report source and writing-phase AI log:
 
 - `final_report/IIT414W_FinalReport_Group6.md`
+- `final_report/IIT414W_FinalReport_Group6.pdf`
 - `final_report/PROMPTS.md`
-
-Demo Day assets:
-
-- `demo_day/F1_Strategy_Advisor_DemoDay_Group6.pptx`
-- `demo_day/build_pptx.py`
-- `demo_day/cal_top10.png`
-- `demo_day/cal_top5.png`
+- `final_report/figures/cal_top10.png`
+- `final_report/figures/cal_top5.png`
 
 The submitted repository URL should point to:
 
@@ -37,7 +33,6 @@ conda env create -f environment.yml
 conda activate iit414w-group6
 python hito2/scripts/build_hito2_assets.py
 python -m nbconvert --to notebook --execute hito2/hito2_modeling.ipynb --output hito2_modeling.executed.ipynb
-python demo_day/build_pptx.py
 ```
 
 If you are using the course-provided environment instead of the local `environment.yml`, install the small package set from `hito1/requirements.txt` and add `python-pptx` before running the same commands.
@@ -52,8 +47,7 @@ Expected outputs:
 
 - Hito 2 markdown artifacts in `hito2/`
 - Executed notebook at `hito2/hito2_modeling.executed.ipynb`
-- Calibration figures at `demo_day/cal_top10.png` and `demo_day/cal_top5.png`
-- Demo deck at `demo_day/F1_Strategy_Advisor_DemoDay_Group6.pptx`
+- Final report figures at `final_report/figures/cal_top10.png` and `final_report/figures/cal_top5.png`
 
 The scripts use repository-relative paths only. `RANDOM_SEED = 414` is set in every stochastic model component.
 

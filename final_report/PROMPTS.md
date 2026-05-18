@@ -54,7 +54,7 @@ Team: Carlos Orellana and Mattias Morales, Group 6
 
 **Validation:** We used `git status`, `git rev-parse --short HEAD`, `git rev-parse --short final-v1`, artifact listing, and direct inspection of `README.md`, `final_report/IIT414W_FinalReport_Group6.md`, and this file.
 
-**Adaptations:** The README was expanded with a fresh-clone runbook, `environment.yml` was added for Python 3.11 reproducibility, and the final report now embeds both calibration plots from `demo_day/`.
+**Adaptations:** The README was expanded with a fresh-clone runbook, `environment.yml` was added for Python 3.11 reproducibility, and the final report now embeds both calibration plots from `final_report/figures/`.
 
 **Final Decision:** Keep the repository reproducibility notes explicit and ensure the submitted PDF title page uses the same short hash as the pushed `final-v1` tag.
 
