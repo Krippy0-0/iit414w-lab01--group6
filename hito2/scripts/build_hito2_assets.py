@@ -450,11 +450,11 @@ def write_reports(df, train, cal, test, metrics, predictions, fitted):
 
             Context: Hito 2 required extending the Hito 1 `is_top10` pipeline to a second fixed-list target and producing model comparison, error analysis, what-if, leakage, and mitigation artifacts.
 
-            Prompts: Asked AI to inspect the Hito 2 assignment and the Hito 1 package, choose an expansion target, and begin building the Hito 2 deliverable.
+            Prompts: Asked AI to review the Hito 2 assignment and the Hito 1 package, then advise whether `is_top5` was a defensible expansion target.
 
-            Output: AI recommended `is_top5`, reused the locked split, trained calibrated logistic and gradient boosting models for both targets, and generated the required Markdown reports plus a reproducible notebook.
+            Output: The review supported `is_top5` because it preserves the points-finish framing from Hito 1 while exposing stronger-result upside. It also suggested keeping the locked split and comparing calibrated logistic regression against calibrated gradient boosting for both targets.
 
-            Validation: Metrics were computed from `hito1/data/f1_strategy_race_level.csv`; the notebook was executed with `nbconvert`; generated reports were checked for both targets and the required slices.
+            Validation: Metrics were computed from `hito1/data/f1_strategy_race_level.csv`; the notebook was executed with `nbconvert`; the team checked the reports for both targets and the required slices.
 
             Adaptations: The first environment assumption (`python` alias available) was wrong, so execution switched to `python3` and installed the required Python packages for the local user. The what-if text was adapted because `is_top10` was nearly indifferent while `is_top5` provided the useful recommendation signal.
 

@@ -22,13 +22,13 @@ Team: Carlos Orellana and Mattias Morales, Group 6
 
 **Prompts:** "In the folder `excel_capstone` are the files needed for Hito 1. Complete Hito 1 and upload it to the repo."
 
-**Output:** The AI inspected `excel_capstone/f1_strategy_race_level.csv` and `excel_capstone/f1_strategy_lap_level.csv`, then copied the official race-level file into the repo. It regenerated the notebook to use the official columns and kept the lap-level file as optional support for Hito 2.
+**Output:** The review confirmed that `excel_capstone/f1_strategy_race_level.csv` and `excel_capstone/f1_strategy_lap_level.csv` were the official capstone files. It also identified which columns should be treated as outcome/audit fields rather than normal predictors.
 
 **Validation:** The official race-level CSV has 2,447 driver-race rows across 2019-2024, includes the locked target, and preserves the exact temporal split. The notebook asserts split membership and confirms outcome/audit columns are not used as model features.
 
 **Adaptations:** We rejected treating `n_stops`, `strategy_type`, `compound_sequence`, and stint features as normal pre-race facts. They are documented and used only as scenario inputs for what-if comparisons.
 
-**Final Decision:** Commit the official dataset plus the script that copies it from `excel_capstone/`, so the data provenance is visible.
+**Final Decision:** Use the official dataset plus the script that copies it from `excel_capstone/`, so the data provenance is visible.
 
 ## Interaction 3 - Notebook Execution Failure and Fix
 

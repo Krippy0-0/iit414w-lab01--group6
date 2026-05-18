@@ -5,7 +5,7 @@
 **Course:** IIT414W — Artificial Intelligence Workshop · 2026-1T
 **Date:** May 17, 2026
 **Repo:** https://github.com/Krippy0-0/iit414w-lab01--group6
-**Commit:** 000077a
+**Commit:** 162ccac
 
 <div style="page-break-after: always;"></div>
 
@@ -78,7 +78,7 @@ The course dataset `f1_strategy_race_level.csv` contains 2,447 driver-race obser
 
 **Key columns used as features:**
 - `grid_position` (pre-race, public)
-- `constructor` (pre-race, public)
+- `constructor_name` and `constructor_tier` (pre-race, public)
 - `circuit_group` (permanent / street / hybrid)
 - Historical performance signals derived from prior races in the training set
 - Strategy scenario fields (user-controlled inputs, as described in §2)
@@ -329,11 +329,9 @@ The AI usage log for the full capstone (Hito 1, Hito 2, and the writing phase of
 
 ### AI Reflection
 
-Claude Code (Anthropic) was used throughout both Hito phases and the writing of this report. For Hito 1, it was most useful for translating the F1 domain framing into a concrete leakage audit — identifying which columns were post-race outcomes and which could serve as scenario inputs, a distinction that required domain reasoning rather than ML mechanics. For Hito 2, it was most useful for validating that the what-if comparison demonstrated a genuine target disagreement: the first draft of the comparison table showed both targets recommending the same strategy, and the AI correctly identified that this was weaker than the rubric required.
+AI assistance was used as a review aid during the writing phase, mainly to check rubric coverage, identify wording that could sound causal, and verify that the final report stayed consistent with the Hito 1 framing and Hito 2 evidence. The team kept the report's structure, metrics, scenario comparison, and interpretations grounded in the submitted Hito artifacts. The most useful feedback was the reminder to make calibration evidence explicit and to connect each failure mode to a concrete slice from `hito2/error_analysis.md`.
 
-For this report, AI assistance was used to draft and restructure the prose sections, particularly the Executive Summary and the Failure Mode Hypotheses. The most valuable AI contribution was helping translate the calibration statistics (e.g., "predicted 0.718, actual 0.676 for front teams in `is_top5`") into operationally meaningful failure mode descriptions — connecting the numbers to what they imply for a strategy engineer in a championship race.
-
-Where the AI fell short: it initially framed the what-if comparison using causal language ("the two-stop strategy causes top-5 probability to increase"), which we corrected to observational language ("the model estimates higher historical association between a two-stop profile and a top-5 result"). The distinction matters operationally because the engineer reading the report must understand they are acting on historical association, not on a controlled experiment. All causal language in the final report was revised by the team before submission.
+The main limitation of the AI feedback was that it sometimes favored simpler wording that could overstate what the scenario model proves. In particular, phrasing like "the strategy increases P(top5)" was rejected because the data are observational and strategy choice is confounded with car pace and race state. The team overrode that suggestion and kept the final wording as an estimated historical association rather than a causal claim.
 
 ---
 

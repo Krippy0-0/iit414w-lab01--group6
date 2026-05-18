@@ -2,58 +2,72 @@
 
 Team: Carlos Orellana and Mattias Morales, Group 6
 
-## Interaction 1 — Drafting All Nine Sections
+## Interaction 1 — Rubric Coverage Review
 
-**Context:** The Final Report requires nine sections in order, 8–12 pages in English. We had all source material in the repo: `hito1/framing.md`, `hito2/baseline_comparison.md`, `hito2/error_analysis.md`, `hito2/whatif_comparison.md`, `hito2/leakage_audit.md`, `hito2/mitigations.md`, and both PROMPTS.md files.
+**Context:** Before final editing, we had the team-written source material from Hito 1 and Hito 2: `hito1/framing.md`, `hito2/baseline_comparison.md`, `hito2/error_analysis.md`, `hito2/whatif_comparison.md`, `hito2/leakage_audit.md`, `hito2/mitigations.md`, and the draft final report.
 
-**Prompts:** "ahora empieza el final report y terminalo. Tienes todo en esta repo."
+**Prompts:** Asked AI to review the draft against the Final Report rubric and identify missing or weak requirements, especially the nine-section order, both-target coverage, the honesty sentence, calibration evidence, and the what-if disagreement.
 
-**Output:** The AI read all source files, identified the rubric requirements from `final_report/enunciado.md`, and generated the complete nine-section report in `final_report/IIT414W_FinalReport_Group6.md`. The report integrated all Hito 1 and Hito 2 material into prose form with tables, added new sections (Executive Summary, improved Problem Framing with explicit assumptions, Limitations with the mandatory honesty sentence), and translated technical metrics into domain-specific language throughout.
+**Output:** The review flagged that the report needed to make the calibration evidence easier to find, keep the what-if scenario explicitly observational, and make the reproducibility note point to the README and prompt logs.
 
-**Validation:** We checked that all nine sections were present in order, that both targets were discussed in §4–§6, that the honesty sentence in §7 had three concrete testable conditions, that the what-if comparison demonstrated a genuine target disagreement, and that the calibration discussion covered both targets with specific probability ranges.
+**Validation:** We checked the recommendations manually against the assignment checklist and the existing Hito 1/Hito 2 artifacts. We verified that the metrics, split, targets, and what-if probabilities matched the notebooks and markdown files already in the repository.
 
-**Adaptations:** The AI initially used causal language in the what-if section ("the two-stop strategy increases top-5 probability"). This was corrected to observational framing: "the model estimates higher historical association between a two-stop profile and a top-5 result." The correction reflects the fundamental limit of the scenario-comparison tool — it estimates historical association, not causal effects, and the engineer must understand this distinction before acting on the output.
+**Adaptations:** The team kept the report structure and evidence from the Hito submissions, added clearer references to calibration figures, and revised wording that could be read as causal.
 
-**Final Decision:** Keep the observational framing throughout §6 and the what-if comparison. Add a note in §6 explicitly flagging that the comparison is observational, not causal.
+**Final Decision:** Use AI feedback only as a checklist-style review aid. The final report remains based on the team's Hito 1 framing, Hito 2 metrics, error analysis, and what-if comparison.
+
+## Interaction 2 — Observational Wording Check
+
+**Context:** The rubric requires what-if comparisons to be framed as observational rather than causal, because the model estimates historical associations under proposed scenario inputs.
+
+**Prompts:** Asked AI to identify any phrases in the what-if and limitations sections that could sound like causal claims.
+
+**Output:** The review identified language such as "strategy increases probability" as potentially too causal if not qualified.
+
+**Validation:** We compared the wording with `hito2/leakage_audit.md`, which states that strategy choices correlate with car pace, driver, traffic, safety-car timing, and weather.
+
+**Adaptations:** We kept the quantitative comparison but described it as a model-estimated association. The report now states that the delta is a decision prompt, not proof of the causal effect of switching strategies.
+
+**Final Decision:** Keep observational language throughout Sections 3, 6, and 7.
+
+## Interaction 3 — Failure-Mode Structure Review
+
+**Context:** Section 6 requires three concrete failure-mode hypotheses with a where / why / how-to-test structure. The raw evidence came from `hito2/error_analysis.md`.
+
+**Prompts:** Asked AI to review whether the three failure modes were specific enough and whether each one included evidence, F1-domain reasoning, and a testable follow-up.
+
+**Output:** The review suggested keeping the three failure modes tied to strategy type, circuit group, and constructor tier, because those slices already appeared in Hito 2.
+
+**Validation:** We checked that each failure mode used actual slice metrics from Hito 2: `three_plus_stop` error, hybrid-circuit `is_top10` error, and front-team `is_top5` overestimation.
+
+**Adaptations:** We revised generic modeling explanations into operational F1 explanations: incident-driven pit stops, coarse circuit grouping, and front-team objective context.
+
+**Final Decision:** Keep the three failure modes as team-authored interpretations of the Hito 2 slice tables.
+
+## Interaction 4 — Reproducibility Audit
+
+**Context:** Before submission, we checked the repository state, README runbook, report figures, and tag/commit consistency.
+
+**Prompts:** Asked AI to help audit the repository for reproducibility risks and compare the final report against the required submission checklist.
+
+**Output:** The audit flagged that the root README needed a fuller runbook, the report should embed the available calibration figures, and the title-page commit needed to match the pushed `final-v1` tag.
+
+**Validation:** We used `git status`, `git rev-parse --short HEAD`, `git rev-parse --short final-v1`, artifact listing, and direct inspection of `README.md`, `final_report/IIT414W_FinalReport_Group6.md`, and this file.
+
+**Adaptations:** The README was expanded with a fresh-clone runbook, `environment.yml` was added for Python 3.11 reproducibility, and the final report now embeds both calibration plots from `demo_day/`.
+
+**Final Decision:** Keep the repository reproducibility notes explicit and ensure the submitted PDF title page uses the same short hash as the pushed `final-v1` tag.
 
 ## Rejected or Corrected AI Suggestion
 
-**Context:** First draft of the what-if recommendation table used the phrase "two-stop strategy causes top-5 probability to quadruple."
+**Context:** During wording review, one suggestion was to phrase the what-if result as a direct strategy effect because it reads more simply.
 
-**Prompt:** Reviewed the draft against the rubric requirement that "what-if comparisons are framed as observational, not causal."
+**Prompts:** We checked this suggestion against the honesty requirement in the rubric and against the Hito 2 leakage audit.
 
-**Output:** AI initially defended the causal phrasing on the grounds that "it is more readable for a non-technical audience."
+**Output:** The suggested phrasing was rejected because the model is not causal.
 
-**Validation:** The rubric explicitly states (D3 Honestidad criteria): "What-if comparisons are framed as observational, not causal." The AI suggestion would have failed the honesty dimension.
+**Validation:** The assignment explicitly requires what-if comparisons to be observational, and `hito2/leakage_audit.md` documents strategy confounding.
 
-**Adaptations:** The phrasing was changed to: "the model estimates higher historical association between a two-stop profile and a top-5 result" with an explicit footnote in §6 that the comparison is observational.
+**Adaptations:** We used wording such as "the model estimates higher historical association" and "decision prompt" instead of causal language.
 
-**Final Decision:** Use observational language throughout. Causal claims are not supported by the data or the modeling approach and would misrepresent the tool's capabilities to an engineer who might act on them.
-
-## Interaction 2 — Framing the Three Failure-Mode Hypotheses
-
-**Context:** The rubric requires three concrete failure-mode hypotheses in §6 with a where / why / how-to-test structure. The error analysis tables were available from `hito2/error_analysis.md`.
-
-**Prompts:** Asked AI to translate the raw slice tables into structured failure-mode hypotheses with the required three-part structure.
-
-**Output:** AI produced three hypotheses: (1) three-plus-stop incident confounding, (2) hybrid circuit feature coarseness, (3) front-team top-5 overestimation in championship battles. Each was structured with a where (specific slice), why (domain reasoning), and how-to-test (concrete empirical test).
-
-**Validation:** The three hypotheses cover strategy type, circuit type, and constructor tier — matching all three required slice dimensions from the rubric.
-
-**Adaptations:** The AI's initial framing of hypothesis 3 attributed the overestimation to "model overfitting." We replaced this with the domain-specific explanation: in close championship battles, front-running constructors sometimes sacrifice top-5 finishing position for strategic reasons, and the model does not capture race-objective context. The domain explanation is more actionable for a strategy engineer.
-
-**Final Decision:** Use the domain-specific explanations for all three failure modes. ML-internal explanations (overfitting, variance) are less useful for a strategy audience than operational F1 explanations.
-
-## Interaction 3 — Final Reproducibility Audit
-
-**Context:** Before submission, the repository was pulled from GitHub and checked against the Final Report rubric, with attention to the tagged commit, README runbook, report figures, and AI-use documentation.
-
-**Prompts:** Asked AI to update the local repository from GitHub, review the `labs` repository against the Final Report requirements, and identify remaining risks before final submission.
-
-**Output:** AI confirmed the repository was clean before pulling, updated `main` from GitHub, found the `final-v1` tag, and flagged three submission risks: the root README lacked a full third-party runbook, the report discussed calibration plots without embedding the available calibration images, and the current branch head was newer than the existing `final-v1` tag.
-
-**Validation:** The audit used `git status`, `git rev-parse --short HEAD`, `git rev-parse --short final-v1`, recursive artifact listing, and direct inspection of `README.md`, `final_report/IIT414W_FinalReport_Group6.md`, and `final_report/PROMPTS.md`.
-
-**Adaptations:** The root README was expanded with a fresh-clone runbook, `environment.yml` was added for Python 3.11 reproducibility, and the final report now embeds both calibration plots from `demo_day/`.
-
-**Final Decision:** Keep the current report content but make reproducibility explicit. Before final Canvas submission, ensure the submitted PDF title-page hash matches the `final-v1` tag that is pushed to GitHub.
+**Final Decision:** Do not present scenario deltas as causal effects.
